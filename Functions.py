@@ -14,15 +14,15 @@ from Constants import *
 # returns commanded deflection angle
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
-def pitch_control(thetadot,thetadotc,Ka,Srg):
-    ea = (thetadotc-thetadot)*Ka
-    erg = thetadot*Srg
-    de = -(ea-erg)
+def pitch_control(thetadot,thetadotc,Ka,Srg,eao,dt,deo):
+    ea = (thetadotc-thetadot)*Ka*dt + eao
+    #erg = thetadot*Srg
+    de = ea #-10*((ea-erg)+deo)*dt + deo
     if de > 0.52:
         de = 0.52
     if de < -0.52:
         de = -0.52
-    return de
+    return de, ea
 #-----------------------------------------------------------------------------
 # Module: Acceleration control Law
 # Takes vertical acceleration and commanded vertical acceleration as input
@@ -30,15 +30,15 @@ def pitch_control(thetadot,thetadotc,Ka,Srg):
 # returns commanded deflection angle
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
-def accel_control(az,azc,thetadot,Ka,Srg):
-    ea = (azc-az)*Ka
-    erg = thetadot*Srg
-    de = ea + erg
+def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
+    ea = (azc-az)*Ka*dt + eao
+    #erg = thetadot*Srg
+    de = ea #+ erg
     if de > 0.52:
         de = 0.52
     if de < -0.52:
         de = -0.52
-    return de
+    return de, ea
 #-----------------------------------------------------------------------------
 # Module: State Space Dynamics
 # Takes elevator deflection and current state
