@@ -15,8 +15,8 @@ from Constants import *
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
 def pitch_control(thetadot,thetadotc,Ka,Srg,eao,dt,deo):
-    ea = (thetadotc-thetadot)*Ka*dt + eao
-    #erg = thetadot*Srg
+    ea = ((thetadotc-thetadot)*Ka*dt + eao)+ Srg*(thetadotc-thetadot)# PI controller
+    erg = thetadot*Srg
     de = ea #-10*((ea-erg)+deo)*dt + deo
     if de > 0.52:
         de = 0.52
@@ -40,7 +40,12 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
         de = -0.52
     return de, ea
 #-----------------------------------------------------------------------------
-# Module: State Space Dynamics
+# Module: State Space Dynamics Lateral x = []
+# Takes ruderron deflection and current state
+# Returns state dynamics xdot = Ax + Bu
+#-----------------------------------------------------------------------------
+#-----------------------------------------------------------------------------
+# Module: State Space Dynamics Longitudinal x = [u alpha thetadot theta]
 # Takes elevator deflection and current state
 # returns state dynamics xdot = Ax + Bu
 #-----------------------------------------------------------------------------
