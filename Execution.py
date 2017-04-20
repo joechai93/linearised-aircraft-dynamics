@@ -16,9 +16,9 @@ x = xhist[0][0], xhist[0][1], xhist[0][2], xhist[0][3]
 ea = eahist[0]
 # solver 
 dt = 0.004
-dT = 0.1 # sampling time for controller
+dT = 0.1 # sampling time for controller 
 t = 0
-tfinal = 250 # seconds
+tfinal = 100 # seconds
 tcollect = 0 # triggers control law when reaches sampling time
 de = 0
 while t < tfinal:
@@ -38,7 +38,6 @@ while t < tfinal:
     xdot = state_space(x,de)
     #Kinematics module
     x = kinematics(xdot,x,dt)    
-    #print(x)
     # save histories
     xhist.append(x)
     dehist.append(de)

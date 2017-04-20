@@ -9,14 +9,11 @@ import numpy as n
 from Constants import *
 #-----------------------------------------------------------------------------
 # Module: Pitch Orientation Control Law
-# Takes pitch rate and commanded pitch rate as input
-# Takes Srg - rate gyro gain, Ka amplifier gain
-# returns commanded deflection angle
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
-def pitch_control(thetadot,thetadotc,Ka,Srg,eao,dt,deo):
-    ea = ((thetadotc-thetadot)*Ka*dt + eao)+ Srg*(thetadotc-thetadot)# PI controller
-    erg = thetadot*Srg
+def pitch_control(thetadot,thetadotc,Ki,Kp,eao,dt,deo):
+    ea = ((thetadotc-thetadot)*Ki*dt + eao)+ Kp*(thetadotc-thetadot)# PI controller
+    #erg = thetadot*Srg
     de = ea #-10*((ea-erg)+deo)*dt + deo
     if de > 0.52:
         de = 0.52
@@ -25,9 +22,6 @@ def pitch_control(thetadot,thetadotc,Ka,Srg,eao,dt,deo):
     return de, ea
 #-----------------------------------------------------------------------------
 # Module: Acceleration control Law
-# Takes vertical acceleration and commanded vertical acceleration as input
-# Takes Ka - accel gain, and Srg - rate gyro gain
-# returns commanded deflection angle
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
 def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
@@ -46,7 +40,7 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
 #-----------------------------------------------------------------------------
 #-----------------------------------------------------------------------------
 # Module: State Space Dynamics Longitudinal x = [u alpha thetadot theta]
-# Takes elevator deflection and current state
+# Assumes no downwash lag for Cx and Cm
 # returns state dynamics xdot = Ax + Bu
 #-----------------------------------------------------------------------------
 def state_space(xo,de):
@@ -78,7 +72,6 @@ def kinematics(xdot,xo,dt):
     theta1 = thetadot*dt + thetao
     x = u1, a1, thetadot1, theta1
     return  x
-    
 #------------------------------------------------------------------------------
 # gravity
 #------------------------------------------------------------------------------
