@@ -34,10 +34,21 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
         de = -0.52
     return de, ea
 #-----------------------------------------------------------------------------
-# Module: State Space Dynamics Lateral x = []
-# Takes ruderron deflection and current state
+# Module: State Space Dynamics Lateral x = [phidot psidot beta phi psi ]
 # Returns state dynamics xdot = Ax + Bu
 #-----------------------------------------------------------------------------
+def state_space_lat(xo,dar):
+    phido, psido, betao, phio, psio = xo
+    x = n.matrix([[phido],[psido],[betao],[phio],[psio]])
+    A = n.matrix([[b_2U*Clp/Ix_Sqb, b_2U*Clr/Ix_Sqb, Clb/Ix_Sqb, 0, 0],
+                  [b_2U*Cnp/Iz_Sqb, b_2U*Cnr/Iz_Sqb, Cnb/Iz_Sqb, 0, 0],
+                  [b_2U*Cyp/mU_Sq, (b_2U*Cyr-mU_Sq)/mU_Sq, Cyb/mU_Sq, Cyph/mU_Sq, Cyps/mU_Sq],
+                  [1, 0, 0, 0, 0],
+                  [0, 1, 0, 0, 0]])
+    B = n.matrix([[Cldar/Ix_Sqb], [Cndar/Iz_Sqb], [Cydar/mU_Sq], [0], [0]])
+    xdot = n.dot(A,x) + B*dar    
+    return float(xdot[0]), float(xdot[1]), float(xdot[2]), float(xdot[3]), float(xdot[4])
+
 #-----------------------------------------------------------------------------
 # Module: State Space Dynamics Longitudinal x = [u alpha thetadot theta]
 # Assumes no downwash lag for Cx and Cm
@@ -50,7 +61,7 @@ def state_space(xo,de):
                    [Czu/(mU_Sq+c*Czad/(2*U)),Cza/(mU_Sq+c*Czad/(2*U)),(mU_Sq+(c/(2*U))*Czq)/(mU_Sq+c*Czad/(2*U)),Cw*math.sin(Theta)/(mU_Sq+c*Czad/(2*U))],
                    [Cmu/I_Sqc,Cma/I_Sqc,(c/(2*U))*Cmq/I_Sqc,0/I_Sqc],
                    [0,0,1,0]])
-    B = n.matrix([[0],[Czde],[Cmde],[0]])
+    B = n.matrix([[0],[Czde/mU_Sq],[Cmde/I_Sqc],[0]])
     xdot = n.dot(A,x) + B*de
     
     return float(xdot[0]), float(xdot[1]), float(xdot[2]), float(xdot[3])
@@ -63,14 +74,27 @@ def kinematics(xdot,xo,dt):
     # xdot = state dynamics
     # dt = timestep
     # unpack state dynamics
-    udot, adot, thetadotdot, thetadot = xdot
-    uo, ao, thetadoto, thetao = xo
-    # use euler 1st order
-    u1 = udot*dt + uo
-    a1 = adot*dt + ao
-    thetadot1 = thetadotdot*dt + thetadoto
-    theta1 = thetadot*dt + thetao
-    x = u1, a1, thetadot1, theta1
+    if len(xdot) == 4:
+        # longitudinal 
+        udot, adot, thetadotdot, thetadot = xdot
+        uo, ao, thetadoto, thetao = xo
+        # use euler 1st order
+        u1 = udot*dt + uo
+        a1 = adot*dt + ao
+        thetadot1 = thetadotdot*dt + thetadoto
+        theta1 = thetadot*dt + thetao
+        x = u1, a1, thetadot1, theta1
+    if len(xdot) == 5:
+        # lateral 
+        phidotdot, psidotdot, bdot, phidot, psidot = xdot
+        phidoto, psidoto, bo, phio, psio = xo
+        # euler 1st order
+        phidot1 = phidotdot*dt + phidoto
+        psidot1 = psidotdot*dt + psidoto
+        b1 = bdot*dt + bo
+        phi1 = phidot*dt + phio
+        psi1 = psidot*dt + psio
+        x = phidot1, psidot1, b1, phi1, psi1
     return  x
 #------------------------------------------------------------------------------
 # gravity
