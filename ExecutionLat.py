@@ -14,7 +14,7 @@ Created on Thu Apr  6 17:14:22 2017
 from Functions import *
 from Constants import *
 # store history of state variables , and control
-xhist = [(0,0,0,0,0)]
+xhist = [(0,0,0.05,0,0)]
 darhist = [0]
 thist = [0]
 eahist = [0]
@@ -33,8 +33,10 @@ dar = 0
 while t < tfinal:
     # create impulse input
     while 1 < t < 2:
-        dar = 0.036
+        #dar = 0.036
         break
+    if 2 < t < 3:
+        dar = 0
     if t > 3:
         dar = 0
     #-----------------------------------
