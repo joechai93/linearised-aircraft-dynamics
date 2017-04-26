@@ -27,7 +27,7 @@ ea = eahist[0]
 dt = 0.004
 dT = 0.1 # sampling time for controller 
 t = 0
-tfinal = 35 # seconds
+tfinal = 35# seconds
 tcollect = 0 # triggers control law when reaches sampling time
 dar = 0
 while t < tfinal:
@@ -76,14 +76,12 @@ pylab.plot(thist,phidot_plot,label="Roll Rate, deg/s")
 pylab.plot(thist,phi_plot,label="Roll Angle, deg")
 pylab.legend(loc="best")
 pylab.grid()
-pylab.show()
 
 pylab.figure()
 pylab.plot(thist,psidot_plot,label="Yaw Rate, deg/s")
 pylab.plot(thist,psi_plot,label="Yaw Angle, deg")
 pylab.legend(loc="best")
 pylab.grid()
-pylab.show()
 
 pylab.figure()
 pylab.plot(thist,beta_plot,label="Sideslip, deg")

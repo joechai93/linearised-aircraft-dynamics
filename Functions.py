@@ -33,6 +33,14 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
     if de < -0.52:
         de = -0.52
     return de, ea
+#----------------------------------------------------------------------------
+# Module: 1st order time lag, discretised using forward euler
+# May be used to simulate actuator dynamics
+# Y/U = 1/(1+Ts)
+#----------------------------------------------------------------------------
+def time_lag_1(T,uo,yo,dt):
+    y1 = (uo-yo)*dt/T + yo
+    return y1
 #-----------------------------------------------------------------------------
 # Module: State Space Dynamics Lateral x = [phidot psidot beta phi psi ]
 # Returns state dynamics xdot = Ax + Bu
@@ -138,7 +146,7 @@ def Tinf(y): # Atmospheric Temperature
     if 51000 < y <= 71000:
         return 288.15*(1.434843 - y/102906)
     else:
-        return print("Error: altitude not supported")
+        print("Error: altitude not supported")
 
 def Pinf(y): # Atmospheric Pressure 
     # y is altitude
@@ -158,4 +166,4 @@ def Pinf(y): # Atmospheric Pressure
     if 51000 < y <= 71000:
         return 101325*(0.838263 - y/176142)**12.20114
     else:
-        return print("Error: altitude not supported")
+        print("Error: altitude not supported")

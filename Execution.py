@@ -63,14 +63,12 @@ ea_plot = [eahist[i]*57.2958 for i in range(len(xhist))]
 pylab.plot(thist,u_plot,label="Forward Velocity")
 pylab.legend(loc="best")
 pylab.grid()
-pylab.show()
 
 pylab.figure()
 pylab.plot(thist,theta_plot,label="Pitch, deg")
 pylab.plot(thist,thetadot_plot,label="Pitchrate, deg/s")
 pylab.legend(loc="best")
 pylab.grid()
-pylab.show()
 
 pylab.figure()
 pylab.plot(thist,a_plot,label="AoA, deg")
