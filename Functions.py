@@ -7,6 +7,7 @@ Created on Thu Apr  6 10:49:00 2017
 import math
 import numpy as n
 from Constants import *
+
 #-----------------------------------------------------------------------------
 # Module: Pitch Orientation Control Law
 # No actuator dynamics modelled (assume instant from command to deflection)
@@ -20,6 +21,7 @@ def pitch_control(thetadot,thetadotc,Ki,Kp,eao,dt,deo):
     if de < -0.52:
         de = -0.52
     return de, ea
+
 #-----------------------------------------------------------------------------
 # Module: Acceleration control Law
 # No actuator dynamics modelled (assume instant from command to deflection)
@@ -33,6 +35,7 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
     if de < -0.52:
         de = -0.52
     return de, ea
+
 #----------------------------------------------------------------------------
 # Module: 1st order time lag, discretised using forward euler
 # May be used to simulate actuator dynamics
@@ -41,6 +44,7 @@ def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
 def time_lag_1(T,uo,yo,dt):
     y1 = (uo-yo)*dt/T + yo
     return y1
+
 #-----------------------------------------------------------------------------
 # Module: State Space Dynamics Lateral x = [phidot psidot beta phi psi ]
 # Returns state dynamics xdot = Ax + Bu
@@ -73,6 +77,7 @@ def state_space(xo,de):
     xdot = n.dot(A,x) + B*de
     
     return float(xdot[0]), float(xdot[1]), float(xdot[2]), float(xdot[3])
+
 #-----------------------------------------------------------------------------
 # Module: Kinematics
 # Takes state dynamics, current state and time step size
@@ -104,11 +109,27 @@ def kinematics(xdot,xo,dt):
         psi1 = psidot*dt + psio
         x = phidot1, psidot1, b1, phi1, psi1
     return  x
+
+#------------------------------------------------------------------------------
+# Finite difference: central difference tool
+# 
+#-----------------------------------------------------------------------------
+def central_diff(f,x1,x2,dx,independent='x1'):
+    if independent == 'x1':
+        yn = f(x1+dx,x2)
+        yo = f(x1-dx,x2)
+        return (yn-yo)/(2*dx)
+    if independent == 'x2':
+        yn = f(x1,x2+dx)
+        yo = f(x1,x2-dx)
+        return (yn-yo)/(2*dx)
+
 #------------------------------------------------------------------------------
 # gravity
 #------------------------------------------------------------------------------
 def gravity(y):
     return 9.81*(6371000/(6371000+y))**2
+
 #------------------------------------------------------------------------------
 # Atmosphere Model
 #------------------------------------------------------------------------------
