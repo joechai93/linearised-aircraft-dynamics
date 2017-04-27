@@ -67,16 +67,23 @@ def CLu_lookup(M,a,sound_speed):
 #CDu = dCD/dM * (1/sound speed)
 def CDu_lookup(M,a,sound_speed):
     return central_diff(CD_lookup,M,a,0.001,independent='x1')*1/sound_speed
-#do CLa and CDa
+
+def CLa_lookup(M,a):
+    return central_diff(CL_lookup,M,a,0.01,independent='x2')
+def CDa_lookup(M,a):
+    return central_diff(CD_lookup,M,a,0.001,independent='x2')
+
 #print(CLu_lookup(0.4,0,340)*340)
 #print(CDu_lookup(4,0,340)*340)
 
 def Cxu(M,a,sound_speed):
     U = M*sound_speed
     return -2*CD_lookup(M,a) - U*CDu_lookup(M,a,sound_speed)
-
 def Czu(M,a,sound_speed):
     U = M*sound_speed
     return -2*CL_lookup(M,a) - U*CLu_lookup(M,a,sound_speed)
-
+def Cxa(M,a):
+    return CL_lookup(M,a) - CDa_lookup(M,a)
+def Cza(M,a):
+    return -CD_lookup(M,a) - CLa_lookup(M,a)
 
