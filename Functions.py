@@ -9,13 +9,13 @@ import numpy as n
 from Constants import *
 
 #-----------------------------------------------------------------------------
-# Module: Pitch Orientation Control Law
+# Module: Pitch Rate Control Law
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
 def pitch_control(thetadot,thetadotc,Ki,Kp,eao,dt,deo):
     ea = ((thetadotc-thetadot)*Ki*dt + eao)+ Kp*(thetadotc-thetadot)# PI controller
     #erg = thetadot*Srg
-    de = ea #-10*((ea-erg)+deo)*dt + deo
+    de = -ea #-10*((ea-erg)+deo)*dt + deo
     if de > 0.52:
         de = 0.52
     if de < -0.52:

@@ -7,8 +7,8 @@ Created on Tue Apr 18 15:13:44 2017
 # Flight Condition, taken from Blakelock, pg 37
 Theta = 0 #0 # eq pitch angle
 Mach = 0.62 #0.62
-m = 5900#84644.64 # kg, 5800 slugs
-U = 440#182.88 # m/s, 600 ft/s
+m = 5800#84644.64 # kg, 5800 slugs
+U = 600#182.88 # m/s, 600 ft/s
 S = 2400#222.9673 # m2, 2400 sq feet
 Iy = 2.62*10**6 #3552243.029 # kg-m^2
 Ix = 1.955*10**6 
@@ -31,7 +31,7 @@ Cma = -0.619
 Cmad = -3.27
 Cmu = 0
 Cmq = -11.4
-mU_Sq = 4.74 #4.74 #13.7 # seconds
+mU_Sq = 13.7 #4.74 #13.7 # seconds
 
 # Longitudinal Control Derivatives
 Cmde = -0.71

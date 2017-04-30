@@ -19,23 +19,25 @@ ea = eahist[0]
 dt = 0.004
 dT = 0.1 # sampling time for controller 
 t = 0
-tfinal = 150 # seconds
+tfinal = 200 # seconds
 tcollect = 0 # triggers control law when reaches sampling time
 de = 0
 while t < tfinal:
-    # create impulse input
-    while 1 < t < 3:
-        de = -0.11
-        break
-    if t > 3:
-        de = 0
+    #-----------------------
+    # create pulse input
+    #while 1 < t < 3:
+     #   de = -0.11
+     #   break
+    #if t > 3:
+     #   de = 0
+        
      #----------------------   
     # call modules
     # Control Module
     while 0 < t < tfinal:
         if tcollect >= dT:
             #de, ea = accel_control(xdot[1],0,x[2],0.3,0.23,ea,dt)
-            #de, ea = pitch_control(x[2],0,0.8,0.03,ea,dT,de) # PI controller
+            #de, ea = pitch_control(x[2],0,0.1,0.03,ea,dT,de) # PI controller
             tcollect = 0
         break
     #Vehicle Dynamics Module
@@ -51,7 +53,6 @@ while t < tfinal:
     tcollect += dt
     t+=dt
     thist.append(t)
-    
 import pylab
 u_plot = [xhist[i][0]*U for i in range(len(xhist))] 
 a_plot = [xhist[i][1]*57.2958 for i in range(len(xhist))]
