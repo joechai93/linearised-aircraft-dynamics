@@ -5,6 +5,6 @@ C = [0 1];
 D = 0;
 
 
-pitch_reduced_sys = ss(A,B,C,D);
+pitch_open_sys = ss(A,B,C,D);
 [num,den] = ss2tf(A,B,C,D);
-pitch_reduced_tf = tf(num,den);
+pitch_open_tf = tf(num,den);
