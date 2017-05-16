@@ -2,16 +2,29 @@ Aero4200 Extra Flight Mechanics Tutorial: Linearised Dynamics and Controller Des
 Joe Chai, 2017 
 Repository: https://bitbucket.org/JoeChai/linearised-dynamics
 
-Task 1: Open Execution.py, Constants.py and Functions.py in your preferred python development environment. (e.g. Spyder on the uni computers)
+Task 1: Open Execution.py, Constants.py and Functions.py in your preferred python 
+development environment. (e.g. Spyder on the uni computers)
 
 Study Execution.py and identify the modules called. Examine their definitions in Functions.py
 
 Run Execution.py. Are there any perturbations? Is the aircraft trimmed, or off-trim?
 
-Task 2: Introduce an elevator pulse input by uncommenting the appropriate lines of code. Run Execution.py and observe the perturbations. Identify the short period and phugoid modes of oscillation.
+Task 2: Introduce an elevator pulse input by uncommenting the appropriate lines of code.
+ Run Execution.py and observe the perturbations.
+ Identify the short period and phugoid modes of oscillation.
 
-Task 3: Comment out the elevator pulse input. Introduce a disturbance in the xhist list. xhist = [(0,0.05,0,0)] disturbes the angle of attack by a few degrees. 
+Task 3: Comment out the elevator pulse input.
+ Introduce a disturbance in the xhist list. 
+xhist = [(0,0.05,0,0)] disturbes the angle of attack by a few degrees. 
 
 Does this aircraft exhibit static stability? Does it exhibit dynamic stability?
+Change the time scale of the simulation to examine the different modes.
 
-Task 4: Examine the pitch_control module in Functions.py. What roles do the proportional and integral action play? uncomment the appropriate line in Execution.py to incorporate the pitch rate controller into the simulation loop. What does the PI controller excel at? Where is it lacking? What could be done better?
+
+Task 4: Examine the pitch_control module in Functions.py. 
+What roles do the proportional and integral action play? 
+uncomment the appropriate line in Execution.py to incorporate the pitch rate controller 
+into the simulation loop. 
+What does the PI controller excel at? 
+Where is it lacking? 
+What could be done better?

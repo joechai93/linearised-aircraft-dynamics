@@ -19,17 +19,17 @@ ea = eahist[0]
 dt = 0.004
 dT = 0.1 # sampling time for controller 
 t = 0
-tfinal = 200 # seconds
+tfinal = 20 # seconds
 tcollect = 0 # triggers control law when reaches sampling time
 de = 0
 while t < tfinal:
     #-----------------------
     # create pulse input
     #while 1 < t < 3:
-     #   de = -0.11
-     #   break
+    #     de = -0.11
+    #     break
     #if t > 3:
-     #   de = 0
+    #     de = 0
         
      #----------------------   
     # call modules
