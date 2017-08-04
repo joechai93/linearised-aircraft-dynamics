@@ -18,8 +18,8 @@ zeta = 0.76;
 
 % Gain selection
 Gp = 0.005;
-k1 = (1/(Na*Mde))*(omega^2 + 2*zeta*omega*p + Ma + (Mq*Na/V) - k2*(Mde*Na/V)) - Gp;
 k2 = (1/Mde)*(2*zeta*omega + p + Mq - (Na/V));
+k1 = (1/(Na*Mde))*(omega^2 + 2*zeta*omega*p + Ma + (Mq*Na/V) - k2*(Mde*Na/V)) - Gp;
 Gi = omega^2 * p/(Na*Mde);
 c = [k2; k1];
 %----------------------------------------------
@@ -36,7 +36,7 @@ step(pitch_closed_tf);
 
 % Linear simulation
 figure('visible','off');
-[u,t] = gensig('square',5,12,0.05);
+[u,t] = gensig('square',5,12,0.0005);
 tramp=0:0.1:5;
 ramp = 2*t;
 lsim(pitch_closed_sys,u,t);
