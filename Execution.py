@@ -19,12 +19,12 @@ ea = eahist[0]
 dt = 0.004
 dT = 0.1 # sampling time for controller 
 t = 0
-tfinal = 20 # seconds
-tcollect = 0 # triggers control law when reaches sampling time
+tfinal = 200 # seconds
+tcntrl = 0 # triggers control law when reaches sampling time
 de = 0
 while t < tfinal:
     #-----------------------
-    # create pulse input
+    # create elevator pulse input
     #while 1 < t < 3:
     #     de = -0.11
     #     break
@@ -35,10 +35,9 @@ while t < tfinal:
     # call modules
     # Control Module
     while 0 < t < tfinal:
-        if tcollect >= dT:
-            #de, ea = accel_control(xdot[1],0,x[2],0.3,0.23,ea,dt)
-            #de, ea = pitch_control(x[2],0,0.1,0.03,ea,dT,de) # PI controller
-            tcollect = 0
+        if tcntrl >= dT:
+            #de = pitchrate_control(x[3],0,x[2],-0.8,0.1)
+            tcntrl = 0
         break
     #Vehicle Dynamics Module
     xdot = state_space(x,de)
@@ -50,7 +49,7 @@ while t < tfinal:
     dehist.append(de)
     eahist.append(ea)
     # update time
-    tcollect += dt
+    tcntrl += dt
     t+=dt
     thist.append(t)
 import pylab

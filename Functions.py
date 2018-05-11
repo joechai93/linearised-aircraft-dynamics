@@ -12,29 +12,11 @@ from Constants import *
 # Module: Pitch Rate Control Law
 # No actuator dynamics modelled (assume instant from command to deflection)
 #-----------------------------------------------------------------------------
-def pitch_control(thetadot,thetadotc,Ki,Kp,eao,dt,deo):
-    ea = ((thetadotc-thetadot)*Ki*dt + eao)+ Kp*(thetadotc-thetadot)# PI controller
-    #erg = thetadot*Srg
-    de = -ea #-10*((ea-erg)+deo)*dt + deo
-    if de > 0.52:
-        de = 0.52
-    if de < -0.52:
-        de = -0.52
-    return de, ea
+def pitchrate_control(theta,thetac,thetadot,Kp,Kq):
+    #-- ENTER CODE HERE
+    de = Kp*(thetac-theta) + Kq*thetadot; 
+    return de
 
-#-----------------------------------------------------------------------------
-# Module: Acceleration control Law
-# No actuator dynamics modelled (assume instant from command to deflection)
-#-----------------------------------------------------------------------------
-def accel_control(az,azc,thetadot,Ka,Srg,eao,dt):
-    ea = (azc-az)*Ka*dt + eao
-    #erg = thetadot*Srg
-    de = ea #+ erg
-    if de > 0.52:
-        de = 0.52
-    if de < -0.52:
-        de = -0.52
-    return de, ea
 
 #----------------------------------------------------------------------------
 # Module: 1st order time lag, discretised using forward euler
